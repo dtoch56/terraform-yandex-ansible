@@ -1,0 +1,14 @@
+#cloud-config
+users:
+  - name: ${ name }
+    uid: "${ uid }"
+    gecos: ${ gecos }
+    hashed_passwd: ${ hashed_password }
+    sudo: ALL=(ALL) ALL
+    shell: ${ shell }
+    homedir: ${ home_dir }
+    lock_passwd: false
+    ssh_authorized_keys:
+      %{ for key in ssh_keys ~}
+      - ${key}
+      %{ endfor ~}

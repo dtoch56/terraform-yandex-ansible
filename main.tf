@@ -1,0 +1,59 @@
+resource "yandex_compute_instance" "ansible" {
+  name        = var.name
+  description = var.description
+  folder_id   = var.folder_id
+  labels      = var.labels
+  zone        = var.zone
+  hostname    = var.hostname
+  metadata = merge({
+    user-data = templatefile("${path.module}/template/ansible-user-data.tftpl", var.ansible_user)
+  }, var.metadata)
+
+  platform_id = var.platform_id
+
+  scheduling_policy {
+    preemptible = var.preemptible
+  }
+
+  resources {
+    cores         = var.resources.cores
+    memory        = var.resources.memory
+    core_fraction = var.resources.core_fraction
+  }
+
+  boot_disk {
+    initialize_params {
+      image_id = var.boot_disk.image_id
+      size     = var.boot_disk.size
+      type     = var.boot_disk.type
+    }
+  }
+
+  network_interface {
+    subnet_id          = var.subnet_id
+    ip_address         = var.network.ip_address
+    ipv4               = var.network.ipv6
+    ipv6_address       = var.network.ipv6_address
+    ipv6               = var.network.ipv6
+    nat                = true
+    nat_ip_address     = yandex_vpc_address.ansible.external_ipv4_address.0.address
+    security_group_ids = var.security_group_ids
+    dynamic "dns_record" {
+      for_each = var.network.dns
+      content {
+        fqdn        = (dns_record.value.fqdn == null ? "${var.hostname}.${dns_record.value.dns_zone}" : dns_record.value.fqdn)
+        dns_zone_id = dns_record.value.zone_id
+      }
+    }
+  }
+}
+
+resource "yandex_vpc_address" "ansible" {
+  name        = "ansible"
+  description = "Ansible bastion"
+
+  external_ipv4_address {
+    zone_id                  = var.zone
+    ddos_protection_provider = "qrator"
+  }
+}
