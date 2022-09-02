@@ -82,9 +82,9 @@ variable "resources" {
 variable "boot_disk" {
   description = "The boot disk for the instance."
   type = object({
-    image_id = number
+    image_id = string
     size     = number
-    type     = number
+    type     = string
   })
   default = {
     image_id = null
