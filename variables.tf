@@ -15,6 +15,11 @@ variable "folder_id" {
   type        = string
 }
 
+variable "network_id" {
+  description = ""
+  type = string
+}
+
 variable "subnet_id" {
   description = ""
   type = string
