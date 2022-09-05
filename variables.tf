@@ -98,6 +98,25 @@ variable "boot_disk" {
   }
 }
 
+# The boot disk for the instance.
+variable "boot_disk_image_id" {
+  description = ""
+  type = string
+}
+
+variable "boot_disk_size" {
+  description = ""
+  type = string
+  default = 15
+}
+
+variable "boot_disk_type" {
+  description = ""
+  type = string
+  default = "network-hdd"
+}
+
+
 variable "network" {
   description = "Networks to attach to the instance."
   type = object({
@@ -120,28 +139,49 @@ variable "network" {
   }
 }
 
-
-variable "ansible_user" {
-  description = "Ansible user for the bastion"
-  type = object({
-    name          = string
-    uid           = number
-    gecos         = string
-    hashed_passwd = string
-    shell         = string
-    homedir       = string
-    ssh_keys      = list(string)
-  })
-  default = {
-    name          = "ansbl"
-    uid           = 1099
-    gecos         = "Ansible user"
-    hashed_passwd = null
-    shell         = "/bin/bash"
-    homedir       = "/home/ansbl"
-    ssh_keys      = []
-  }
+# Ansible user for the bastion
+variable "ansible_user_name" {
+  description = "Ansible user name"
+  type        = string
+  default     = "ansbl"
 }
+
+variable "ansible_user_uid" {
+  description = "Ansible user uid"
+  type        = number
+  default     = 1099
+}
+
+variable "ansible_user_gecos" {
+  description = "Ansible user name"
+  type        = string
+  default     = "Ansible user GECOS field"
+}
+
+variable "ansible_user_hashed_passwd" {
+  description = "Ansible user hashed password"
+  type        = string
+}
+
+variable "ansible_user_shell" {
+  description = "Ansible user shell path"
+  type        = string
+  default     = "/bin/bash"
+}
+
+variable "ansible_user_homedir" {
+  description = "Ansible user home directory path"
+  type        = string
+  default     = "/home/ansbl"
+}
+
+variable "ansible_user_ssh_keys" {
+  description = "Ansible user list of public ssh keys"
+  type        = string
+  default     = "Ansible user"
+}
+
+
 
 
 variable "default_security_groups" {

@@ -1,3 +1,21 @@
+locals {
+  ansible_user = {
+    name          = var.ansible_user_name
+    uid           = var.ansible_user_uid
+    gecos         = var.ansible_user_gecos
+    hashed_passwd = var.ansible_user_hashed_passwd
+    shell         = var.ansible_user_shell
+    homedir       = var.ansible_user_homedir
+    ssh_keys      = var.ansible_user_ssh_keys
+  }
+
+  boot_disk = {
+    image_id = var.boot_disk_image_id
+    size     = var.boot_disk_size
+    type     = var.boot_disk_type
+  }
+}
+
 resource "yandex_compute_instance" "ansible" {
   name        = var.name
   description = var.description
@@ -6,7 +24,7 @@ resource "yandex_compute_instance" "ansible" {
   zone        = var.zone
   hostname    = var.hostname
   metadata = merge({
-    user-data = templatefile("${path.module}/template/ansible-user-data.tftpl", var.ansible_user)
+    user-data = templatefile("${path.module}/template/ansible-user-data.tftpl", local.ansible_user)
   }, var.metadata)
 
   platform_id = var.platform_id
@@ -22,11 +40,7 @@ resource "yandex_compute_instance" "ansible" {
   }
 
   boot_disk {
-    initialize_params {
-      image_id = var.boot_disk.image_id
-      size     = var.boot_disk.size
-      type     = var.boot_disk.type
-    }
+    initialize_params = local.boot_disk
   }
 
   network_interface {
