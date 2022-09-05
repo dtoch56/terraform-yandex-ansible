@@ -17,12 +17,12 @@ variable "folder_id" {
 
 variable "network_id" {
   description = ""
-  type = string
+  type        = string
 }
 
 variable "subnet_id" {
   description = ""
-  type = string
+  type        = string
 }
 
 variable "labels" {
@@ -101,19 +101,19 @@ variable "boot_disk" {
 # The boot disk for the instance.
 variable "boot_disk_image_id" {
   description = ""
-  type = string
+  type        = string
 }
 
 variable "boot_disk_size" {
   description = ""
-  type = string
-  default = 15
+  type        = string
+  default     = 15
 }
 
 variable "boot_disk_type" {
   description = ""
-  type = string
-  default = "network-hdd"
+  type        = string
+  default     = "network-hdd"
 }
 
 
@@ -177,8 +177,7 @@ variable "ansible_user_homedir" {
 
 variable "ansible_user_ssh_keys" {
   description = "Ansible user list of public ssh keys"
-  type        = string
-  default     = "Ansible user"
+  type        = list(string)
 }
 
 
