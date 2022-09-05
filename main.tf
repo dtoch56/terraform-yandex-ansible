@@ -40,7 +40,11 @@ resource "yandex_compute_instance" "ansible" {
   }
 
   boot_disk {
-    initialize_params = local.boot_disk
+    initialize_params {
+      image_id = local.boot_disk.image_id
+      size     = local.boot_disk.size
+      type     = local.boot_disk.type
+    }
   }
 
   network_interface {
