@@ -140,6 +140,20 @@ variable "network" {
 }
 
 # Ansible user for the bastion
+variable "ip_address" {
+  description = "Ansible bastion IP address"
+  type        = string
+  default     = null
+}
+
+variable "ipv6_address" {
+  description = "Ansible bastion IPV6 address"
+  type        = string
+  default     = null
+}
+
+
+# Ansible user for the bastion
 variable "ansible_user_name" {
   description = "Ansible user name"
   type        = string
