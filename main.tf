@@ -94,6 +94,7 @@ EOT
 resource "yandex_vpc_address" "ansible" {
   name        = "ansible"
   description = "Ansible bastion"
+  folder_id   = var.folder_id
 
   external_ipv4_address {
     zone_id                  = var.zone
