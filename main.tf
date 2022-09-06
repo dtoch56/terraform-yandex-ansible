@@ -52,7 +52,7 @@ resource "yandex_compute_instance" "ansible" {
   network_interface {
     subnet_id          = var.subnet_id
     ip_address         = try(var.ip_address, var.network.ip_address)
-    ipv4               = var.network.ipv6
+    ipv4               = var.network.ipv4
     ipv6_address       = try(var.ipv6_address, var.network.ipv6_address)
     ipv6               = var.network.ipv6
     nat                = true
