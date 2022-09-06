@@ -24,7 +24,10 @@ resource "yandex_compute_instance" "ansible" {
   zone        = var.zone
   hostname    = var.hostname
   metadata = merge({
-    user-data = templatefile("${path.module}/template/ansible-user-data.tftpl", local.ansible_user)
+    user-data = templatefile("${path.module}/template/ansible-user-data.tftpl", merge(local.ansible_user, {
+      port = var.bastion_ssh_port,
+      private_ssh_key = var.private_ssh_key
+    }))
   }, var.metadata)
 
   platform_id = var.platform_id
@@ -71,19 +74,21 @@ resource "yandex_compute_instance" "ansible" {
   provisioner "remote-exec" {
     inline = ["hostname"]
     connection {
-      type        = "ssh"
-      host        = self.network_interface[0].nat_ip_address
-      user        = var.ansible_user_name
+      type = "ssh"
+      host = self.network_interface[0].nat_ip_address
+      user = var.ansible_user_name
+      port = var.bastion_ssh_port
     }
   }
 
   provisioner "local-exec" {
     command = <<-EOT
-ansible-playbook \
--u ansbl \
--i '${self.network_interface[0].nat_ip_address}' \
+ANSIBLE_CONFIG=${path.module}/ansible/ansible.cfg ansible-playbook \
+-u ${var.ansible_user_name} \
+-i "${self.network_interface[0].nat_ip_address}," \
 -e "ansible_become_pass=${var.ansible_become_pass}" \
 -e "ansible_bastion_user=${var.ansible_user_name}" \
+-e "ansible_ssh_port=${var.bastion_ssh_port}" \
 ${path.module}/ansible/main.yml
 EOT
   }

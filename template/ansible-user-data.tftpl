@@ -12,3 +12,16 @@ users:
       %{ for key in ssh_keys ~}
       - ${key}
       %{ endfor ~}
+
+
+cloud_config_modules:
+  - runcmd
+
+cloud_final_modules:
+  - scripts-user
+
+runcmd:
+  - sed -i -e '/^#Port/s/^.*$/Port ${ port }/' /etc/ssh/sshd_config
+  - sed -i -e '/^#PermitRootLogin/s/^.*$/PermitRootLogin no/' /etc/ssh/sshd_config
+  - sed -i -e '$aAllowUsers ${ name }' /etc/ssh/sshd_config
+  - systemctl restart ssh.service
