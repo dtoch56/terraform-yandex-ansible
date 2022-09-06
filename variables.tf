@@ -199,3 +199,14 @@ variable "whitelist_ips" {
   description = "List of Whitelist IPs to access Ansible bastion"
   type        = list(string)
 }
+
+
+variable "ansible_become_pass" {
+  description = ""
+  type = string
+}
+
+variable "bastion_ssh_key_private_file" {
+  description = ""
+  type = string
+}

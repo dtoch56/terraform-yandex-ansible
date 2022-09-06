@@ -1,0 +1,35 @@
+---
+- name: Prepare Ansible bastion
+  hosts: all
+  remote_user: ansbl
+  become: yes
+
+  tasks:
+  - name: Upgrade packages
+    ansible.builtin.include_role:
+      name: dtoch56.upgrade_packages
+
+  - name: Prepare host
+    ansible.builtin.include_role:
+      name: dtoch56.prepare_host
+
+  - name: Copy ssh private key
+    ansible.builtin.copy:
+      src: "files/ssh/id_ed25519"
+      dest: "/home/ansbl/.ssh/id_ed25519"
+      owner: "{{ ansible_bastion_user }}"
+      group: "{{ ansible_bastion_user }}"
+      mode: '0600'
+
+  - name: Prepare ssh server
+    ansible.builtin.include_role:
+      name: dtoch56.ssh
+    vars:
+      ssh_port: "{{ ansible_bastion_ssh_port }}"
+      ssh_ansible_user: "{{ ansible_bastion_user }}"
+
+  - include: tasks/ufw.yml
+    when: ansible_distribution == "Ubuntu"
+
+  - include: tasks/fail2ban.yml
+

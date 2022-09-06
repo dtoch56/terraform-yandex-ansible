@@ -1,0 +1,23 @@
+---
+- name: Disables and resets firewall to installation defaults
+  community.general.ufw:
+    state: reset
+  when: reset_ufw
+
+- name: Deny everything
+  community.general.ufw:
+    policy: deny
+
+- name: Deny everything
+  community.general.ufw:
+    default: deny
+
+- name: UFW Allow SSH from any host
+  community.general.ufw:
+    rule: allow
+    proto: tcp
+    to_port: "{{ ansible_bastion_ssh_port }}"
+
+- name: Enable UFW
+  community.general.ufw:
+    state: enabled

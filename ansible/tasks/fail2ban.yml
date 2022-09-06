@@ -1,0 +1,9 @@
+- name: oefenweb.fail2ban role
+  include_role:
+    name: oefenweb.fail2ban
+  vars:
+    fail2ban_services:
+      - name: sshd
+        port: "{{ ansible_bastion_ssh_port }}"
+        maxretry: 3
+        bantime: 6
