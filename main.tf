@@ -29,6 +29,8 @@ resource "yandex_compute_instance" "ansible" {
 
   platform_id = var.platform_id
 
+  allow_stopping_for_update = true
+
   scheduling_policy {
     preemptible = var.preemptible
   }
