@@ -2,7 +2,7 @@
 - name: Prepare Ansible bastion
   hosts: all
   remote_user: ansbl
-  become: yes
+  become: localhost
 
   tasks:
   - name: Upgrade packages
@@ -28,8 +28,8 @@
       ssh_port: "{{ ansible_bastion_ssh_port }}"
       ssh_ansible_user: "{{ ansible_bastion_user }}"
 
-  - include: tasks/ufw.yml
+  - include_tasks: tasks/ufw.yml
     when: ansible_distribution == "Ubuntu"
 
-  - include: tasks/fail2ban.yml
+  - include_tasks: tasks/fail2ban.yml
 

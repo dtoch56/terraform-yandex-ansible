@@ -73,8 +73,7 @@ resource "yandex_compute_instance" "ansible" {
     connection {
       type        = "ssh"
       host        = self.network_interface[0].nat_ip_address
-      user        = "ansbl"
-      private_key = file(var.bastion_ssh_key_private_file)
+      user        = var.ansible_user_name
     }
   }
 
@@ -83,7 +82,6 @@ resource "yandex_compute_instance" "ansible" {
 ansible-playbook \
 -u ansbl \
 -i '${self.network_interface[0].nat_ip_address}' \
---private-key ${var.bastion_ssh_key_private_file} \
 -e "ansible_become_pass=${var.ansible_become_pass}" \
 -e "ansible_bastion_user=${var.ansible_user_name}" \
 ${path.module}/ansible/main.yml

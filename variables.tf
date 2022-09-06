@@ -224,3 +224,9 @@ variable "bastion_ssh_key_private_file" {
   description = ""
   type = string
 }
+
+variable "bastion_ssh_port" {
+  description = "SSH port"
+  type = number
+  default = 38721
+}
