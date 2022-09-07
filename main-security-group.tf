@@ -9,10 +9,11 @@ resource "yandex_vpc_security_group" "ansible" {
   ingress {
     description    = "SSH"
     protocol       = "TCP"
-    port           = 22
+    port           = var.bastion_ssh_port
     v4_cidr_blocks = var.whitelist_ips
   }
   egress {
+    description    = "All outgoing traffic"
     protocol       = "Any"
     from_port      = 0
     to_port        = 65535

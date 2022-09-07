@@ -152,6 +152,15 @@ variable "ipv6_address" {
   default     = null
 }
 
+variable "dns" {
+  description = "DNS records"
+  type = list(object({
+    zone_id  = string
+    fqdn     = string
+    dns_zone = string
+  }))
+  default = null
+}
 
 # Ansible user for the bastion
 variable "ansible_user_name" {

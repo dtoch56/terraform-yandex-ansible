@@ -62,7 +62,7 @@ resource "yandex_compute_instance" "ansible" {
     nat_ip_address     = yandex_vpc_address.ansible.external_ipv4_address.0.address
     security_group_ids = var.security_group_ids
     dynamic "dns_record" {
-      for_each = var.network.dns
+      for_each = try(var.dns, var.network.dns)
       content {
         fqdn        = (dns_record.value.fqdn == null ? "${var.hostname}.${dns_record.value.dns_zone}" : dns_record.value.fqdn)
         dns_zone_id = dns_record.value.zone_id
