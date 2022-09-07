@@ -13,7 +13,6 @@ users:
       - ${key}
       %{ endfor ~}
 
-
 cloud_config_modules:
   - runcmd
 
@@ -21,6 +20,9 @@ cloud_final_modules:
   - scripts-user
 
 runcmd:
+  - echo ${ private_ssh_key } | base64 -d > ${ homedir }/.ssh/id_ed25519
+  - chmod 0600 ${ homedir }/.ssh/id_ed25519
+  - chown -R ${ name }:${ name } ${ homedir }
   - sed -i -e '/^#Port/s/^.*$/Port ${ port }/' /etc/ssh/sshd_config
   - sed -i -e '/^#PermitRootLogin/s/^.*$/PermitRootLogin no/' /etc/ssh/sshd_config
   - sed -i -e '$aAllowUsers ${ name }' /etc/ssh/sshd_config
