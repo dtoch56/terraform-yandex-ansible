@@ -25,7 +25,7 @@ resource "yandex_compute_instance" "ansible" {
   hostname    = var.hostname
   metadata = merge({
     user-data = templatefile("${path.module}/template/ansible-user-data.tftpl", merge(local.ansible_user, {
-      port = var.bastion_ssh_port,
+      port            = var.bastion_ssh_port,
       private_ssh_key = base64encode(var.private_ssh_key)
     }))
   }, var.metadata)

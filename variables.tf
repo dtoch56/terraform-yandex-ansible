@@ -226,21 +226,21 @@ variable "whitelist_ips" {
 
 variable "ansible_become_pass" {
   description = ""
-  type = string
+  type        = string
 }
 
 variable "bastion_ssh_key_private_file" {
   description = ""
-  type = string
+  type        = string
 }
 
 variable "bastion_ssh_port" {
   description = "SSH port"
-  type = number
-  default = 38721
+  type        = number
+  default     = 38721
 }
 
 variable "private_ssh_key" {
   description = ""
-  type = string
+  type        = string
 }
