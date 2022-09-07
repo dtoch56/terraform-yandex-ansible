@@ -1,0 +1,18 @@
+---
+- name: Prepare sshd config
+  ansible.builtin.template:
+    src: ./templates/sshd_config.conf
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+  notify: Restart sshd
+
+- name: Prepare ssh config
+  ansible.builtin.template:
+    src: ./templates/ssh_config.conf
+    dest: /etc/ssh/ssh_config
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+  notify: Restart sshd

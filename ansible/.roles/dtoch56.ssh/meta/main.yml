@@ -1,0 +1,24 @@
+galaxy_info:
+  author: dtoch56
+  role_name: ssh
+  description: SSH server and client configuration
+  license: MIT
+  min_ansible_version: 2.1
+  platforms:
+    - name: EL
+      versions:
+        - all
+    - name: Fedora
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - all
+  galaxy_tags:
+    - ssh
+    - sshd
+
+dependencies: []

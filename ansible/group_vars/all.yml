@@ -1,6 +1,5 @@
 reset_ufw: false
 
 ansible_bastion_user: ansbl
-ansible_bastion_ssh_port: 38689
-ssh_users:
-  - dtoch
+ansible_bastion_ssh_port: 38721
+ssh_users: []
